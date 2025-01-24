@@ -1,4 +1,4 @@
 run_tests:
-  image: golang:1.23.5
+  image: golang:1.23.5-alpine3.21
   script:
     - go build ./test_cicd.go
