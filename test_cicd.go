@@ -23,7 +23,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	address := fmt.Sprintf(":%s", os.Args[1])
+	address := Sprintf(":%s", os.Args[1])
 
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
