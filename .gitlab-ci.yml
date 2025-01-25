@@ -4,6 +4,8 @@
 
 build_and_push_image:
   image: docker:latest
+  services:
+    - name: docker:dind
   before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
   script:
     - docker build -t zukidocker/oss:test_cicd-go .
