@@ -4,6 +4,6 @@
 
 build_and_push_image:
   image: docker:latest
-  before_script: docker login -u DOCKER_USER -p DOCKER_USER_PASSWD
+  # before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
   script:
     - docker info
