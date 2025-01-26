@@ -9,7 +9,7 @@ import (
 func handleConn(conn net.Conn) {
 	defer conn.Close()
 
-	message := "hello world! \n"
+	message := "hello world! \n disconnecting ..."
 	_, err := conn.Write([]byte(message))
 	if err != nil {
 		fmt.Println("error: can not write to connection, err:", err.Error())
