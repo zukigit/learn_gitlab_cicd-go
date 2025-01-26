@@ -3,6 +3,8 @@ variables:
   IMAGE_TAG: test_cicd-go
 
 build_and_push_image:
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
   image: docker:latest
   services:
     - name: docker:dind
