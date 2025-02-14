@@ -12,4 +12,15 @@ build_and_push_image:
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+manual_build_and_push_image:
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+  image: docker:latest
+  services:
+    - name: docker:dind
+  before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
   when: manual
