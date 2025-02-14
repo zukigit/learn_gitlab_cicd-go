@@ -2,25 +2,40 @@ variables:
   IMAGE_NAME: zukidocker/oss
   IMAGE_TAG: test_cicd-go
 
-build_and_push_image:
-  rules:
-    - if: $CI_COMMIT_REF_PROTECTED == "true"
-  image: docker:latest
-  services:
-    - name: docker:dind
-  before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
-  script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
-    - docker push $IMAGE_NAME:$IMAGE_TAG
+# build_and_push_image:
+#   rules:
+#     - if: $CI_COMMIT_REF_PROTECTED == "true"
+#   image: docker:latest
+#   services:
+#     - name: docker:dind
+#   before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
+#   script:
+#     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+#     - docker push $IMAGE_NAME:$IMAGE_TAG
 
-manual_build_and_push_image:
+# manual_build_and_push_image:
+#   rules:
+#     - if: $CI_COMMIT_REF_PROTECTED == "true"
+#   image: docker:latest
+#   services:
+#     - name: docker:dind
+#   before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
+#   script:
+#     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+#     - docker push $IMAGE_NAME:$IMAGE_TAG
+#   when: manual
+
+build_and_save_artifacts:
   rules:
     - if: $CI_COMMIT_REF_PROTECTED == "true"
-  image: docker:latest
-  services:
-    - name: docker:dind
-  before_script: docker login -u $DOCKER_USER -p $DOCKER_USER_PASSWD
+  image: golang:latest
   script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
-    - docker push $IMAGE_NAME:$IMAGE_TAG
-  when: manual
+    - go build -o test_cicd test_cicd.go
+    - mv test_cicd test_cicd-go/
+  artifacts:
+    untracked: false
+    when: on_success
+    access: all
+    expire_in: 30 days
+    paths:
+      - "test_cicd-go/"
